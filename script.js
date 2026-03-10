@@ -66,22 +66,35 @@ function renderListings(listings) {
   });
 }
 
+function normalize(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
 function applyFilters() {
-  const cityValue = filterCity.value.trim().toLowerCase();
-  const categoryValue = filterCategory.value.trim().toLowerCase();
-  const languageValue = filterLanguage.value.trim().toLowerCase();
+  const cityValue = normalize(filterCity.value);
+  const categoryValue = normalize(filterCategory.value);
+  const languageValue = normalize(filterLanguage.value);
+
+  console.log("Running filters:", {
+    cityValue,
+    categoryValue,
+    languageValue,
+    totalListings: allListings.length
+  });
 
   const filteredListings = allListings.filter((listing) => {
-    const listingCity = (listing.city || "").toLowerCase();
-    const listingCategory = (listing.category || "").toLowerCase();
-    const listingLanguage = (listing.languages || "").toLowerCase();
+    const listingCity = normalize(listing.city);
+    const listingCategory = normalize(listing.category);
+    const listingLanguage = normalize(listing.languages);
 
     const matchesCity = !cityValue || listingCity.includes(cityValue);
-    const matchesCategory = !categoryValue || listingCategory === categoryValue;
-    const matchesLanguage = !languageValue || listingLanguage === languageValue;
+    const matchesCategory = !categoryValue || listingCategory.includes(categoryValue);
+    const matchesLanguage = !languageValue || listingLanguage.includes(languageValue);
 
     return matchesCity && matchesCategory && matchesLanguage;
   });
+
+  console.log("Filtered results:", filteredListings);
 
   renderListings(filteredListings);
 }
@@ -106,10 +119,13 @@ async function loadListings() {
     allListings = [];
 
     querySnapshot.forEach((doc) => {
-      allListings.push(doc.data());
+      const listing = doc.data();
+      allListings.push(listing);
     });
 
-    allListings.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    allListings.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+
+    console.log("Loaded listings:", allListings);
 
     renderListings(allListings);
   } catch (error) {
@@ -156,7 +172,14 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-searchButton.addEventListener("click", applyFilters);
-clearFiltersButton.addEventListener("click", clearFilters);
+searchButton.addEventListener("click", () => {
+  console.log("Search button clicked");
+  applyFilters();
+});
+
+clearFiltersButton.addEventListener("click", () => {
+  console.log("Clear filters clicked");
+  clearFilters();
+});
 
 loadListings();
