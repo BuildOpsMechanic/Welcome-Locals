@@ -10,6 +10,21 @@
 <h1>WelcomeLocal</h1>
 <p>Helping travelers and locals connect.</p>
 
+<h2>Search Locations</h2>
+<input type="text" id="searchBox" placeholder="Search for restaurants, services, etc.">
+
+<h2>Submit a Friendly Location</h2>
+
+<form id="locationForm">
+    <input type="text" id="name" placeholder="Business Name" required>
+    <input type="text" id="city" placeholder="City" required>
+    <input type="text" id="category" placeholder="Category (Restaurant, Taxi, Hotel)" required>
+    <button type="submit">Submit</button>
+</form>
+
+<h2>Locations</h2>
+<ul id="locationList"></ul>
+
 <script src="script.js"></script>
 
 </body>
