@@ -20,29 +20,61 @@
       text-align: center;
       font-size: 28px;
       font-weight: bold;
+      border-bottom: 1px solid #333;
     }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
+    .page-layout {
+      display: flex;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 30px;
+      align-items: flex-start;
     }
 
-    form, .filters {
+    .left-panel {
+      flex: 0 0 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .right-panel {
+      flex: 1;
+      min-height: 600px;
+    }
+
+    .panel-box {
       background: #1e1e1e;
       padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
     }
 
     input, textarea, select {
       width: 100%;
       padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
+      margin-top: 4px;
+      margin-bottom: 18px;
       border-radius: 5px;
       border: none;
       box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
     button {
@@ -55,6 +87,7 @@
       border-radius: 5px;
       width: 100%;
       margin-bottom: 10px;
+      font-size: 15px;
     }
 
     button:hover {
@@ -69,19 +102,53 @@
       background: #777;
     }
 
-    .listings {
-      margin-top: 40px;
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .results-count {
+      color: #cfcfcf;
+      font-size: 14px;
     }
 
     .card {
       background: #1e1e1e;
       padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #2f2f2f;
     }
 
-    .section-title {
+    .card h3 {
       margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .empty-state {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      color: #cfcfcf;
+    }
+
+    @media (max-width: 1000px) {
+      .page-layout {
+        flex-direction: column;
+      }
+
+      .left-panel {
+        flex: 1 1 auto;
+        width: 100%;
+      }
+
+      .right-panel {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -91,115 +158,127 @@
     Welcome Locals
   </header>
 
-  <div class="container">
-    <h2>Add a Local Spot</h2>
+  <div class="page-layout">
 
-    <form id="listingForm">
-      <label for="title">Title</label>
-      <input id="title" required>
+    <div class="left-panel">
 
-      <label for="description">Description</label>
-      <textarea id="description" required></textarea>
+      <div class="panel-box">
+        <h2>Add a Local Spot</h2>
 
-      <label for="city">City</label>
-      <input id="city" required>
+        <form id="listingForm">
+          <label for="title">Title</label>
+          <input id="title" required>
 
-      <label for="category">Category</label>
-      <select id="category" required>
-        <option value="Restaurant">Restaurant</option>
-        <option value="Cafe">Cafe</option>
-        <option value="Bar">Bar</option>
-        <option value="Activity">Activity</option>
-        <option value="Attraction">Attraction</option>
-      </select>
+          <label for="description">Description</label>
+          <textarea id="description" required></textarea>
 
-      <label for="languages">Language</label>
-      <select id="languages" required>
-        <option value="">Select a language</option>
-        <option value="English">English</option>
-        <option value="Mandarin Chinese">Mandarin Chinese</option>
-        <option value="Hindi">Hindi</option>
-        <option value="Spanish">Spanish</option>
-        <option value="French">French</option>
-        <option value="Modern Standard Arabic">Modern Standard Arabic</option>
-        <option value="Bengali">Bengali</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Russian">Russian</option>
-        <option value="Urdu">Urdu</option>
-        <option value="Indonesian">Indonesian</option>
-        <option value="German">German</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Nigerian Pidgin">Nigerian Pidgin</option>
-        <option value="Marathi">Marathi</option>
-        <option value="Telugu">Telugu</option>
-        <option value="Turkish">Turkish</option>
-        <option value="Tamil">Tamil</option>
-        <option value="Yue Chinese (Cantonese)">Yue Chinese (Cantonese)</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Wu Chinese">Wu Chinese</option>
-        <option value="Korean">Korean</option>
-        <option value="Iranian Persian">Iranian Persian</option>
-        <option value="Hausa">Hausa</option>
-        <option value="Egyptian Spoken Arabic">Egyptian Spoken Arabic</option>
-      </select>
+          <label for="city">City</label>
+          <input id="city" required>
 
-      <button type="submit">Submit Listing</button>
-    </form>
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="Restaurant">Restaurant</option>
+            <option value="Cafe">Cafe</option>
+            <option value="Bar">Bar</option>
+            <option value="Activity">Activity</option>
+            <option value="Attraction">Attraction</option>
+          </select>
 
-    <div class="filters">
-      <h2 class="section-title">Filter Listings</h2>
+          <label for="languages">Language</label>
+          <select id="languages" required>
+            <option value="">Select a language</option>
+            <option value="English">English</option>
+            <option value="Mandarin Chinese">Mandarin Chinese</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+            <option value="Modern Standard Arabic">Modern Standard Arabic</option>
+            <option value="Bengali">Bengali</option>
+            <option value="Portuguese">Portuguese</option>
+            <option value="Russian">Russian</option>
+            <option value="Urdu">Urdu</option>
+            <option value="Indonesian">Indonesian</option>
+            <option value="German">German</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Nigerian Pidgin">Nigerian Pidgin</option>
+            <option value="Marathi">Marathi</option>
+            <option value="Telugu">Telugu</option>
+            <option value="Turkish">Turkish</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Yue Chinese (Cantonese)">Yue Chinese (Cantonese)</option>
+            <option value="Vietnamese">Vietnamese</option>
+            <option value="Wu Chinese">Wu Chinese</option>
+            <option value="Korean">Korean</option>
+            <option value="Iranian Persian">Iranian Persian</option>
+            <option value="Hausa">Hausa</option>
+            <option value="Egyptian Spoken Arabic">Egyptian Spoken Arabic</option>
+          </select>
 
-      <label for="filterCity">Filter by City</label>
-      <input id="filterCity" placeholder="Enter city">
+          <button type="submit">Submit Listing</button>
+        </form>
+      </div>
 
-      <label for="filterCategory">Filter by Category</label>
-      <select id="filterCategory">
-        <option value="">All Categories</option>
-        <option value="Restaurant">Restaurant</option>
-        <option value="Cafe">Cafe</option>
-        <option value="Bar">Bar</option>
-        <option value="Activity">Activity</option>
-        <option value="Attraction">Attraction</option>
-      </select>
+      <div class="panel-box">
+        <h2>Filter Listings</h2>
 
-      <label for="filterLanguage">Filter by Language</label>
-      <select id="filterLanguage">
-        <option value="">All Languages</option>
-        <option value="English">English</option>
-        <option value="Mandarin Chinese">Mandarin Chinese</option>
-        <option value="Hindi">Hindi</option>
-        <option value="Spanish">Spanish</option>
-        <option value="French">French</option>
-        <option value="Modern Standard Arabic">Modern Standard Arabic</option>
-        <option value="Bengali">Bengali</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Russian">Russian</option>
-        <option value="Urdu">Urdu</option>
-        <option value="Indonesian">Indonesian</option>
-        <option value="German">German</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Nigerian Pidgin">Nigerian Pidgin</option>
-        <option value="Marathi">Marathi</option>
-        <option value="Telugu">Telugu</option>
-        <option value="Turkish">Turkish</option>
-        <option value="Tamil">Tamil</option>
-        <option value="Yue Chinese (Cantonese)">Yue Chinese (Cantonese)</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Wu Chinese">Wu Chinese</option>
-        <option value="Korean">Korean</option>
-        <option value="Iranian Persian">Iranian Persian</option>
-        <option value="Hausa">Hausa</option>
-        <option value="Egyptian Spoken Arabic">Egyptian Spoken Arabic</option>
-      </select>
+        <label for="filterCity">Filter by City</label>
+        <input id="filterCity" placeholder="Enter city">
 
-      <button type="button" id="searchButton">Search</button>
-      <button type="button" id="clearFiltersButton" class="secondary-button">Clear Filters</button>
+        <label for="filterCategory">Filter by Category</label>
+        <select id="filterCategory">
+          <option value="">All Categories</option>
+          <option value="Restaurant">Restaurant</option>
+          <option value="Cafe">Cafe</option>
+          <option value="Bar">Bar</option>
+          <option value="Activity">Activity</option>
+          <option value="Attraction">Attraction</option>
+        </select>
+
+        <label for="filterLanguage">Filter by Language</label>
+        <select id="filterLanguage">
+          <option value="">All Languages</option>
+          <option value="English">English</option>
+          <option value="Mandarin Chinese">Mandarin Chinese</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+          <option value="Modern Standard Arabic">Modern Standard Arabic</option>
+          <option value="Bengali">Bengali</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Russian">Russian</option>
+          <option value="Urdu">Urdu</option>
+          <option value="Indonesian">Indonesian</option>
+          <option value="German">German</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Nigerian Pidgin">Nigerian Pidgin</option>
+          <option value="Marathi">Marathi</option>
+          <option value="Telugu">Telugu</option>
+          <option value="Turkish">Turkish</option>
+          <option value="Tamil">Tamil</option>
+          <option value="Yue Chinese (Cantonese)">Yue Chinese (Cantonese)</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Wu Chinese">Wu Chinese</option>
+          <option value="Korean">Korean</option>
+          <option value="Iranian Persian">Iranian Persian</option>
+          <option value="Hausa">Hausa</option>
+          <option value="Egyptian Spoken Arabic">Egyptian Spoken Arabic</option>
+        </select>
+
+        <button type="button" id="searchButton">Search</button>
+        <button type="button" id="clearFiltersButton" class="secondary-button">Clear Filters</button>
+      </div>
+
     </div>
 
-    <div class="listings">
-      <h2>Local Listings</h2>
+    <div class="right-panel">
+      <div class="results-header">
+        <h2>Search Results</h2>
+        <div class="results-count" id="resultsCount">0 listings</div>
+      </div>
+
       <div id="listingsContainer"></div>
     </div>
+
   </div>
 
   <script type="module" src="script.js"></script>
