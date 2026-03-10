@@ -1,7 +1,12 @@
-// Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -16,7 +21,79 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Initialize services
 const db = getFirestore(app);
-const storage = getStorage(app);
+
+// Get page elements
+const form = document.getElementById("listingForm");
+const listingsContainer = document.getElementById("listingsContainer");
+
+// Load listings from Firestore
+async function loadListings() {
+  listingsContainer.innerHTML = "<p>Loading listings...</p>";
+
+  try {
+    const listingsQuery = query(collection(db, "listings"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(listingsQuery);
+
+    listingsContainer.innerHTML = "";
+
+    if (querySnapshot.empty) {
+      listingsContainer.innerHTML = "<p>No listings yet.</p>";
+      return;
+    }
+
+    querySnapshot.forEach((doc) => {
+      const listing = doc.data();
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <h3>${listing.title || "Untitled"}</h3>
+        <p><strong>Category:</strong> ${listing.category || "N/A"}</p>
+        <p><strong>City:</strong> ${listing.city || "N/A"}</p>
+        <p>${listing.description || ""}</p>
+      `;
+
+      listingsContainer.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Error loading listings:", error);
+    listingsContainer.innerHTML = "<p>Error loading listings.</p>";
+  }
+}
+
+// Save form submission to Firestore
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const title = document.getElementById("title").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const category = document.getElementById("category").value;
+
+  if (!title || !description || !city || !category) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "listings"), {
+      title,
+      description,
+      city,
+      category,
+      createdAt: new Date()
+    });
+
+    alert("Listing submitted successfully.");
+    form.reset();
+    loadListings();
+  } catch (error) {
+    console.error("Error saving listing:", error);
+    alert("There was a problem saving the listing.");
+  }
+});
+
+// Initial page load
+loadListings();
