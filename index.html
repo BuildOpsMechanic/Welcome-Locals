@@ -54,10 +54,19 @@
       cursor: pointer;
       border-radius: 5px;
       width: 100%;
+      margin-bottom: 10px;
     }
 
     button:hover {
       background: #ffb74d;
+    }
+
+    .secondary-button {
+      background: #555;
+    }
+
+    .secondary-button:hover {
+      background: #777;
     }
 
     .listings {
@@ -182,6 +191,9 @@
         <option value="Hausa">Hausa</option>
         <option value="Egyptian Spoken Arabic">Egyptian Spoken Arabic</option>
       </select>
+
+      <button type="button" id="searchButton">Search</button>
+      <button type="button" id="clearFiltersButton" class="secondary-button">Clear Filters</button>
     </div>
 
     <div class="listings">
