@@ -1,51 +1,22 @@
-const form = document.getElementById("locationForm");
-const list = document.getElementById("locationList");
-const searchBox = document.getElementById("searchBox");
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-let locations = JSON.parse(localStorage.getItem("locations")) || [];
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyA1IeHc3DPvApcaGBkZNUZ3MBlakoVdsvQ",
+  authDomain: "welcome-locals-c79e1.firebaseapp.com",
+  projectId: "welcome-locals-c79e1",
+  storageBucket: "welcome-locals-c79e1.firebasestorage.app",
+  messagingSenderId: "645251263574",
+  appId: "1:645251263574:web:1ec4212a65c5c4df785ff7",
+  measurementId: "G-46HDKYEB4T"
+};
 
-renderLocations(locations);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const name = document.getElementById("name").value;
-    const city = document.getElementById("city").value;
-    const category = document.getElementById("category").value;
-
-    const location = {
-        name,
-        city,
-        category
-    };
-
-    locations.push(location);
-    localStorage.setItem("locations", JSON.stringify(locations));
-
-    renderLocations(locations);
-    form.reset();
-});
-
-searchBox.addEventListener("input", function() {
-    const searchTerm = searchBox.value.toLowerCase();
-
-    const filteredLocations = locations.filter(function(loc) {
-        return (
-            loc.name.toLowerCase().includes(searchTerm) ||
-            loc.city.toLowerCase().includes(searchTerm) ||
-            loc.category.toLowerCase().includes(searchTerm)
-        );
-    });
-
-    renderLocations(filteredLocations);
-});
-
-function renderLocations(locationArray) {
-    list.innerHTML = "";
-
-    locationArray.forEach(function(loc) {
-        const item = document.createElement("li");
-        item.textContent = loc.name + " - " + loc.city + " (" + loc.category + ")";
-        list.appendChild(item);
-    });
-}
+// Initialize services
+const db = getFirestore(app);
+const storage = getStorage(app);
