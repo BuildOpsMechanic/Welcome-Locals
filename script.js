@@ -1,7 +1,9 @@
 const form = document.getElementById("locationForm");
 const list = document.getElementById("locationList");
 
-let locations = [];
+let locations = JSON.parse(localStorage.getItem("locations")) || [];
+
+renderLocations();
 
 form.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -17,6 +19,9 @@ form.addEventListener("submit", function(event) {
     };
 
     locations.push(location);
+
+    localStorage.setItem("locations", JSON.stringify(locations));
+
     renderLocations();
 
     form.reset();
