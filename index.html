@@ -1,125 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome Locals</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Locals</title>
 
-<style>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
 
-body{
-font-family: Arial, sans-serif;
-background:#0f0f0f;
-color:white;
-margin:0;
-padding:0;
-}
+    header {
+      background: #1a1a1a;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
 
-header{
-background:#1a1a1a;
-padding:20px;
-text-align:center;
-font-size:28px;
-font-weight:bold;
-}
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+    }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:30px;
-}
+    form {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+    }
 
-form{
-background:#1e1e1e;
-padding:20px;
-border-radius:8px;
-}
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: none;
+      box-sizing: border-box;
+    }
 
-input, textarea, select{
-width:100%;
-padding:10px;
-margin-top:10px;
-margin-bottom:20px;
-border-radius:5px;
-border:none;
-}
+    button {
+      background: #ff9800;
+      border: none;
+      padding: 12px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 100%;
+    }
 
-button{
-background:#ff9800;
-border:none;
-padding:12px;
-color:white;
-font-weight:bold;
-cursor:pointer;
-border-radius:5px;
-width:100%;
-}
+    button:hover {
+      background: #ffb74d;
+    }
 
-button:hover{
-background:#ffb74d;
-}
+    .listings {
+      margin-top: 40px;
+    }
 
-.listings{
-margin-top:40px;
-}
-
-.card{
-background:#1e1e1e;
-padding:20px;
-border-radius:8px;
-margin-bottom:20px;
-}
-
-</style>
-
+    .card {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-Welcome Locals
-</header>
+  <header>
+    Welcome Locals
+  </header>
 
-<div class="container">
+  <div class="container">
+    <h2>Add a Local Spot</h2>
 
-<h2>Add a Local Spot</h2>
+    <form id="listingForm">
+      <label for="title">Title</label>
+      <input id="title" required>
 
-<form id="listingForm">
+      <label for="description">Description</label>
+      <textarea id="description" required></textarea>
 
-<label>Title</label>
-<input id="title" required>
+      <label for="city">City</label>
+      <input id="city" required>
 
-<label>Description</label>
-<textarea id="description" required></textarea>
+      <label for="category">Category</label>
+      <select id="category" required>
+        <option value="Restaurant">Restaurant</option>
+        <option value="Cafe">Cafe</option>
+        <option value="Bar">Bar</option>
+        <option value="Activity">Activity</option>
+        <option value="Attraction">Attraction</option>
+      </select>
 
-<label>City</label>
-<input id="city" required>
+      <label for="languages">Language</label>
+      <select id="languages" required>
+        <option value="">Select a language</option>
+        <option value="English">English</option>
+        <option value="Mandarin Chinese">Mandarin Chinese</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Spanish">Spanish</option>
+        <option value="French">French</option>
+        <option value="Modern Standard Arabic">Modern Standard Arabic</option>
+        <option value="Bengali">Bengali</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Russian">Russian</option>
+        <option value="Urdu">Urdu</option>
+        <option value="Indonesian">Indonesian</option>
+        <option value="German">German</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Nigerian Pidgin">Nigerian Pidgin</option>
+        <option value="Marathi">Marathi</option>
+        <option value="Telugu">Telugu</option>
+        <option value="Turkish">Turkish</option>
+        <option value="Tamil">Tamil</option>
+        <option value="Yue Chinese (Cantonese)">Yue Chinese (Cantonese)</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Wu Chinese">Wu Chinese</option>
+        <option value="Korean">Korean</option>
+        <option value="Iranian Persian">Iranian Persian</option>
+        <option value="Hausa">Hausa</option>
+        <option value="Egyptian Spoken Arabic">Egyptian Spoken Arabic</option>
+      </select>
 
-<label>Category</label>
-<select id="category">
-<option value="Restaurant">Restaurant</option>
-<option value="Cafe">Cafe</option>
-<option value="Bar">Bar</option>
-<option value="Activity">Activity</option>
-<option value="Attraction">Attraction</option>
-</select>
+      <button type="submit">Submit Listing</button>
+    </form>
 
-<button type="submit">Submit Listing</button>
+    <div class="listings">
+      <h2>Local Listings</h2>
+      <div id="listingsContainer"></div>
+    </div>
+  </div>
 
-</form>
-
-<div class="listings">
-
-<h2>Local Listings</h2>
-
-<div id="listingsContainer"></div>
-
-</div>
-
-</div>
-
-<!-- Firebase script -->
-<script type="module" src="script.js"></script>
-
+  <script type="module" src="script.js"></script>
 </body>
 </html>
