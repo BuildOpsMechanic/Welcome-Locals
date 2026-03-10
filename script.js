@@ -3,12 +3,9 @@ import {
   getFirestore,
   collection,
   addDoc,
-  getDocs,
-  query,
-  orderBy
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyA1IeHc3DPvApcaGBkZNUZ3MBlakoVdsvQ",
   authDomain: "welcome-locals-c79e1.firebaseapp.com",
@@ -19,22 +16,17 @@ const firebaseConfig = {
   measurementId: "G-46HDKYEB4T"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Get page elements
 const form = document.getElementById("listingForm");
 const listingsContainer = document.getElementById("listingsContainer");
 
-// Load listings from Firestore
 async function loadListings() {
   listingsContainer.innerHTML = "<p>Loading listings...</p>";
 
   try {
-    const listingsQuery = query(collection(db, "listings"), orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(listingsQuery);
-
+    const querySnapshot = await getDocs(collection(db, "listings"));
     listingsContainer.innerHTML = "";
 
     if (querySnapshot.empty) {
@@ -63,7 +55,6 @@ async function loadListings() {
   }
 }
 
-// Save form submission to Firestore
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -72,28 +63,22 @@ form.addEventListener("submit", async (event) => {
   const city = document.getElementById("city").value.trim();
   const category = document.getElementById("category").value;
 
-  if (!title || !description || !city || !category) {
-    alert("Please fill out all fields.");
-    return;
-  }
-
   try {
     await addDoc(collection(db, "listings"), {
       title,
       description,
       city,
       category,
-      createdAt: new Date()
+      createdAt: Date.now()
     });
 
     alert("Listing submitted successfully.");
     form.reset();
-    loadListings();
+    await loadListings();
   } catch (error) {
     console.error("Error saving listing:", error);
-    alert("There was a problem saving the listing.");
+    alert("Error saving listing. Check browser console.");
   }
 });
 
-// Initial page load
 loadListings();
